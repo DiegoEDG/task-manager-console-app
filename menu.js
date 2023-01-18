@@ -60,7 +60,27 @@ const pause = async () => {
 	await inquirer.prompt(pauseQuestion);
 };
 
+const readDescription = async (message) => {
+	const rdQuestion = [
+		{
+			type: 'input',
+			name: 'description',
+			message,
+			validate(value) {
+				if (value.length === 0) {
+					return 'Write a description';
+				}
+				return true;
+			}
+		}
+	];
+
+	const { description } = await inquirer.prompt(rdQuestion);
+	return description;
+};
+
 module.exports = {
 	mainMenu,
-	pause
+	pause,
+	readDescription
 };
