@@ -1,5 +1,5 @@
 require('colors');
-const saveData = require('./helpers/saveData');
+const { saveData, loadData } = require('./helpers/saveData');
 const { mainMenu, pause, readDescription } = require('./menu');
 const Tasks = require('./models/tasksModel');
 
@@ -7,10 +7,16 @@ const main = async () => {
 	let option = '';
 	const tasks = new Tasks();
 
+	console.clear();
+
+	if (loadData()) {
+		const data = await loadData();
+		tasks.loadDataToArray(data);
+	}
+
 	do {
 		console.clear();
 		option = await mainMenu();
-		console.log(option);
 
 		switch (option) {
 			case '1':
@@ -18,7 +24,13 @@ const main = async () => {
 				tasks.createTask(description);
 				break;
 			case '2':
-				console.log(tasks.taskListArr);
+				tasks.showTaskList(tasks.taskListArr);
+				break;
+			case '3':
+				tasks.showCompletedTask(tasks.taskListArr);
+				break;
+			case '4':
+				tasks.showPendingTask(tasks.taskListArr);
 				break;
 		}
 

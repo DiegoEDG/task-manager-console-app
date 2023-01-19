@@ -1,4 +1,5 @@
 const Task = require('./taskModel');
+require('colors');
 
 class Tasks {
 	_taskList = {};
@@ -21,6 +22,40 @@ class Tasks {
 	createTask(description) {
 		const newTask = new Task(description);
 		this._taskList[newTask.id] = newTask;
+	}
+
+	loadDataToArray(data) {
+		data.forEach((task) => {
+			this._taskList[task.id] = task;
+		});
+	}
+
+	showTaskList(tasks) {
+		console.log();
+		tasks.forEach((task, key) => {
+			const index = `${key + 1}. `.magenta;
+			console.log(`${index}${task.description} :: ${task.complationDate ? 'Completed'.green : 'Pending'.red}`);
+		});
+	}
+
+	showCompletedTask(tasks) {
+		console.log();
+		tasks.forEach((task, key) => {
+			const index = `${key + 1}. `.magenta;
+			if (task.complationDate) {
+				console.log(`${index} ${task.description} :: ${task.complationDate}`.green);
+			}
+		});
+	}
+
+	showPendingTask(tasks) {
+		console.log();
+		tasks.forEach((task, key) => {
+			const index = `${key + 1}. `.magenta;
+			if (!task.complationDate) {
+				console.log(`${index} ${task.description}`.red);
+			}
+		});
 	}
 }
 
