@@ -79,9 +79,31 @@ const readDescription = async (message) => {
 	return description;
 };
 
+const checkCompletedTask = async (tasks) => {
+	const choices = tasks.map((task, index) => {
+		const idx = `${index + 1}`.magenta;
+
+		return {
+			value: task.id,
+			name: `${idx}. ${task.description}`,
+			checked: task.complationDate ? true : false
+		};
+	});
+
+	const completedTaskQ = {
+		type: 'checkbox',
+		name: 'completedTasks',
+		message: 'Choices',
+		choices
+	};
+
+	const { completedTasks } = await inquirer.prompt(completedTaskQ);
+	return completedTasks;
+};
+
 const deleteTask = async (tasks) => {
 	const choices = tasks.map((task, index) => {
-		const idx = index + 1;
+		const idx = `${index + 1}`.magenta;
 
 		return {
 			value: task.id,
@@ -120,5 +142,6 @@ module.exports = {
 	pause,
 	readDescription,
 	deleteTask,
-	confirmDeleteQuestion
+	confirmDeleteQuestion,
+	checkCompletedTask
 };

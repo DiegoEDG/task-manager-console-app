@@ -1,6 +1,6 @@
 require('colors');
 const { saveData, loadData } = require('./helpers/saveData');
-const { mainMenu, pause, readDescription, deleteTask, confirmDeleteQuestion } = require('./menu');
+const { mainMenu, pause, readDescription, deleteTask, confirmDeleteQuestion, checkCompletedTask } = require('./menu');
 const Tasks = require('./models/tasksModel');
 
 const main = async () => {
@@ -31,6 +31,11 @@ const main = async () => {
 				break;
 			case '4':
 				tasks.showPendingTask(tasks.taskListArr);
+				break;
+			case '5':
+				const ids = await checkCompletedTask(tasks.taskListArr);
+				console.log(ids);
+				tasks.checkCompletedTask(ids);
 				break;
 			case '6':
 				const id = await deleteTask(tasks.taskListArr);

@@ -43,7 +43,7 @@ class Tasks {
 		tasks.forEach((task, key) => {
 			const index = `${key + 1}. `.magenta;
 			if (task.complationDate) {
-				console.log(`${index} ${task.description} :: ${task.complationDate}`.green);
+				console.log(`${index} ${task.description} :: ${task.complationDate.green}`);
 			}
 		});
 	}
@@ -57,6 +57,21 @@ class Tasks {
 			}
 		});
 	}
+
+	checkCompletedTask = (ids) => {
+		ids.forEach((id) => {
+			const tarea = this._taskList[id];
+			if (!tarea.complationDate) {
+				tarea.complationDate = new Date().toISOString().slice(0, 10);
+			}
+		});
+
+		this.taskListArr.forEach((task) => {
+			if (!ids.includes(task.id)) {
+				this._taskList[task.id].complationDate = null;
+			}
+		});
+	};
 
 	deleteTask(id) {
 		if (this._taskList[id]) {
